@@ -1,0 +1,61 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Uploaded Files</mat-card-title>
+    <mat-card-subtitle>Manage and access your uploaded documents</mat-card-subtitle>
+  </mat-card-header>
+  
+  <mat-card-content>
+    <div *ngIf="loading" class="loading-spinner">
+      <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+    </div>
+    
+    <div *ngIf="!loading && files.length === 0" class="no-files">
+      <mat-icon>folder_open</mat-icon>
+      <p>No files uploaded yet</p>
+    </div>
+    
+    <mat-list *ngIf="!loading && files.length > 0">
+      <mat-list-item *ngFor="let file of files" class="file-item">
+        <mat-icon matListItemIcon [svgIcon]="getFileIcon(file.type)">{{ getFileIcon(file.type) }}</mat-icon>
+        
+        <div matListItemTitle class="file-info">
+          <div class="file-name">{{ file.original_name }}</div>
+          <div class="file-details">
+            <span class="file-size">{{ formatFileSize(file.size) }}</span>
+            <span class="file-type">{{ file.type.toUpperCase() }}</span>
+            <span *ngIf="file.page_count" class="page-count">{{ file.page_count }} pages</span>
+          </div>
+        </div>
+        
+        <div matListItemMeta class="file-actions">
+          <button 
+            mat-icon-button 
+            color="primary" 
+            (click)="onFileSelect(file)"
+            matTooltip="Select for editing"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          
+          <button 
+            mat-icon-button 
+            color="accent" 
+            (click)="onDownload(file)"
+            matTooltip="Download file"
+          >
+            <mat-icon>download</mat-icon>
+          </button>
+          
+          <button 
+            mat-icon-button 
+            color="warn" 
+            (click)="onDelete(file)"
+            matTooltip="Delete file"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+</mat-card> 

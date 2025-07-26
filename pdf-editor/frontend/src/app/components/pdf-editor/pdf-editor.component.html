@@ -1,0 +1,185 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>PDF Editor</mat-card-title>
+    <mat-card-subtitle>Edit PDF documents with granular control</mat-card-subtitle>
+  </mat-card-header>
+  
+  <mat-card-content>
+    <div *ngIf="!selectedFile" class="no-file-selected">
+      <mat-icon>picture_as_pdf</mat-icon>
+      <h3>No PDF selected</h3>
+      <p>Please select a PDF file from the file list to start editing</p>
+    </div>
+    
+    <div *ngIf="selectedFile" class="editor-container">
+      <!-- File Info -->
+      <div class="file-info">
+        <h3>{{ selectedFile.original_name }}</h3>
+        <p>{{ pageCount }} pages</p>
+      </div>
+      
+      <!-- Edit Tools -->
+      <div class="edit-tools">
+        <button 
+          mat-raised-button 
+          [class.active]="activeTool === 'text'"
+          (click)="setActiveTool('text')"
+        >
+          <mat-icon>text_fields</mat-icon>
+          Add Text
+        </button>
+        
+        <button 
+          mat-raised-button 
+          [class.active]="activeTool === 'image'"
+          (click)="setActiveTool('image')"
+        >
+          <mat-icon>image</mat-icon>
+          Add Image
+        </button>
+        
+        <button 
+          mat-raised-button 
+          [class.active]="activeTool === 'rectangle'"
+          (click)="setActiveTool('rectangle')"
+        >
+          <mat-icon>crop_square</mat-icon>
+          Add Rectangle
+        </button>
+        
+        <button 
+          mat-raised-button 
+          [class.active]="activeTool === 'line'"
+          (click)="setActiveTool('line')"
+        >
+          <mat-icon>show_chart</mat-icon>
+          Add Line
+        </button>
+        
+        <button 
+          mat-raised-button 
+          color="warn"
+          (click)="clearEdits()"
+        >
+          <mat-icon>clear</mat-icon>
+          Clear All
+        </button>
+      </div>
+      
+      <!-- Tool Properties -->
+      <div *ngIf="activeTool" class="tool-properties">
+        <h4>{{ activeTool.charAt(0).toUpperCase() + activeTool.slice(1) }} Properties</h4>
+        
+        <div *ngIf="activeTool === 'text'" class="text-properties">
+          <mat-form-field appearance="outline">
+            <mat-label>Text Content</mat-label>
+            <input matInput [(ngModel)]="textContent" placeholder="Enter text...">
+          </mat-form-field>
+          
+          <mat-form-field appearance="outline">
+            <mat-label>Font Size</mat-label>
+            <input matInput type="number" [(ngModel)]="fontSize" min="8" max="72">
+          </mat-form-field>
+        </div>
+        
+        <div *ngIf="activeTool === 'rectangle' || activeTool === 'image'" class="shape-properties">
+          <mat-form-field appearance="outline">
+            <mat-label>Width</mat-label>
+            <input matInput type="number" [(ngModel)]="shapeWidth" min="10" max="500">
+          </mat-form-field>
+          
+          <mat-form-field appearance="outline">
+            <mat-label>Height</mat-label>
+            <input matInput type="number" [(ngModel)]="shapeHeight" min="10" max="500">
+          </mat-form-field>
+        </div>
+        
+        <div *ngIf="activeTool === 'line'" class="line-properties">
+          <mat-form-field appearance="outline">
+            <mat-label>Line Width</mat-label>
+            <input matInput type="number" [(ngModel)]="lineWidth" min="1" max="10">
+          </mat-form-field>
+        </div>
+        
+        <div *ngIf="activeTool === 'image'" class="image-upload">
+          <input 
+            type="file" 
+            accept="image/*" 
+            (change)="onImageUpload($event)"
+            style="display: none;"
+            #imageInput
+          >
+          <button mat-raised-button (click)="imageInput.click()">
+            <mat-icon>upload</mat-icon>
+            Upload Image
+          </button>
+        </div>
+      </div>
+      
+      <!-- PDF Preview -->
+      <div class="pdf-preview-container">
+        <div *ngIf="loading" class="loading-spinner">
+          <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+        </div>
+        
+        <div *ngIf="!loading && pdfPreview" class="canvas-container">
+          <img 
+            [src]="pdfPreview" 
+            alt="PDF Preview" 
+            class="pdf-canvas"
+            (click)="onCanvasClick($event)"
+            [style.cursor]="activeTool ? 'crosshair' : 'default'"
+          >
+          <div class="canvas-overlay">
+            <p *ngIf="activeTool">Click on the PDF to add {{ activeTool }}</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Edits List -->
+      <div *ngIf="edits.length > 0" class="edits-list">
+        <h4>Applied Edits ({{ edits.length }})</h4>
+        <mat-list>
+          <mat-list-item *ngFor="let edit of edits; let i = index">
+            <mat-icon matListItemIcon>
+              {{ edit.type === 'text' ? 'text_fields' : 
+                 edit.type === 'image' ? 'image' : 
+                 edit.type === 'rectangle' ? 'crop_square' : 'show_chart' }}
+            </mat-icon>
+            <div matListItemTitle>
+              {{ edit.type.charAt(0).toUpperCase() + edit.type.slice(1) }} on page {{ edit.page }}
+            </div>
+            <div matListItemMeta>
+              <button mat-icon-button color="warn" (click)="removeEdit(i)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </mat-list-item>
+        </mat-list>
+      </div>
+      
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button 
+          mat-raised-button 
+          color="primary" 
+          (click)="saveEdits()"
+          [disabled]="edits.length === 0 || loading"
+        >
+          <mat-icon>save</mat-icon>
+          Save Edits
+        </button>
+        
+        <button 
+          mat-raised-button 
+          color="accent" 
+          (click)="downloadEdited()"
+          [disabled]="!selectedFile"
+        >
+          <mat-icon>download</mat-icon>
+          Download Edited PDF
+        </button>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card> 

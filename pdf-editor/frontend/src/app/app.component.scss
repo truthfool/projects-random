@@ -1,0 +1,16 @@
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.tab-content {
+  padding: 20px 0;
+}
+
+mat-toolbar {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.pdf-editor-container {
+  min-height: calc(100vh - 64px);
+  background-color: #fafafa;
+} 

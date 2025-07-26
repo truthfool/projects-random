@@ -1,0 +1,29 @@
+.pdf-preview {
+  width: 100%;
+  text-align: center;
+}
+
+.preview-image {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.no-preview {
+  padding: 40px;
+  color: #666;
+}
+
+.no-preview mat-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 16px;
+}
+
+.no-preview p {
+  margin: 0;
+  font-size: 16px;
+} 

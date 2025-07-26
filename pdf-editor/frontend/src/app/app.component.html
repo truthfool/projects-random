@@ -1,0 +1,36 @@
+<mat-toolbar color="primary">
+  <span>{{ title }}</span>
+  <span class="toolbar-spacer"></span>
+  <button mat-icon-button>
+    <mat-icon>help</mat-icon>
+  </button>
+</mat-toolbar>
+
+<div class="pdf-editor-container">
+  <mat-tabs>
+    <mat-tab label="Upload & Files">
+      <div class="tab-content">
+        <app-file-upload></app-file-upload>
+        <app-file-list></app-file-list>
+      </div>
+    </mat-tab>
+    
+    <mat-tab label="Edit PDF">
+      <div class="tab-content">
+        <app-pdf-editor></app-pdf-editor>
+      </div>
+    </mat-tab>
+    
+    <mat-tab label="Convert">
+      <div class="tab-content">
+        <app-convert-pdf></app-convert-pdf>
+      </div>
+    </mat-tab>
+    
+    <mat-tab label="Split PDF">
+      <div class="tab-content">
+        <app-split-pdf></app-split-pdf>
+      </div>
+    </mat-tab>
+  </mat-tabs>
+</div> 

@@ -1,0 +1,67 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Convert Documents</mat-card-title>
+    <mat-card-subtitle>Convert between PDF and Word formats</mat-card-subtitle>
+  </mat-card-header>
+  
+  <mat-card-content>
+    <div class="convert-container">
+      <!-- File Selection -->
+      <div class="file-selection">
+        <h3>Select a file to convert:</h3>
+        <mat-list>
+          <mat-list-item 
+            *ngFor="let file of files" 
+            [class.selected]="selectedFile?.filename === file.filename"
+            (click)="onFileSelect(file)"
+            class="file-item"
+          >
+            <mat-icon matListItemIcon>
+              {{ file.type.toLowerCase() === 'pdf' ? 'picture_as_pdf' : 'description' }}
+            </mat-icon>
+            <div matListItemTitle>{{ file.original_name }}</div>
+            <div matListItemLine>{{ file.type.toUpperCase() }} - {{ (file.size / 1024).toFixed(1) }} KB</div>
+          </mat-list-item>
+        </mat-list>
+      </div>
+      
+      <!-- Conversion Options -->
+      <div *ngIf="selectedFile" class="conversion-options">
+        <h3>Convert {{ selectedFile.original_name }}</h3>
+        
+        <div class="conversion-buttons">
+          <button 
+            mat-raised-button 
+            color="primary" 
+            (click)="convertPdfToWord()"
+            [disabled]="selectedFile.type.toLowerCase() !== 'pdf' || loading"
+          >
+            <mat-icon>picture_as_pdf</mat-icon>
+            Convert PDF to Word
+          </button>
+          
+          <button 
+            mat-raised-button 
+            color="accent" 
+            (click)="convertWordToPdf()"
+            [disabled]="!['docx', 'doc'].includes(selectedFile.type.toLowerCase()) || loading"
+          >
+            <mat-icon>description</mat-icon>
+            Convert Word to PDF
+          </button>
+        </div>
+        
+        <div *ngIf="loading" class="loading-spinner">
+          <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+          <p>Converting document...</p>
+        </div>
+      </div>
+      
+      <div *ngIf="!selectedFile" class="no-file-selected">
+        <mat-icon>swap_horiz</mat-icon>
+        <h3>No file selected</h3>
+        <p>Please select a file from the list above to convert</p>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card> 

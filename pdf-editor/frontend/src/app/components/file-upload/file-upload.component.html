@@ -1,0 +1,47 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Upload Files</mat-card-title>
+    <mat-card-subtitle>Upload PDF or Word documents for editing and conversion</mat-card-subtitle>
+  </mat-card-header>
+  
+  <mat-card-content>
+    <div 
+      class="file-upload-area"
+      [class.dragover]="isDragOver"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave($event)"
+      (drop)="onDrop($event)"
+    >
+      <mat-icon class="upload-icon">cloud_upload</mat-icon>
+      <h3>Drag and drop files here</h3>
+      <p>or</p>
+      
+      <button 
+        mat-raised-button 
+        color="primary" 
+        (click)="fileInput.click()"
+        [disabled]="isUploading"
+      >
+        <mat-icon>file_upload</mat-icon>
+        Choose Files
+      </button>
+      
+      <input 
+        #fileInput
+        type="file" 
+        [accept]="allowedTypes"
+        (change)="onFileSelected($event)"
+        style="display: none;"
+      >
+      
+      <p class="file-types">Supported formats: PDF, DOCX, DOC</p>
+      
+      <mat-progress-spinner 
+        *ngIf="isUploading"
+        mode="indeterminate" 
+        diameter="40"
+        class="upload-spinner"
+      ></mat-progress-spinner>
+    </div>
+  </mat-card-content>
+</mat-card> 

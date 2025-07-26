@@ -1,0 +1,37 @@
+<div class="edit-tools">
+  <button 
+    mat-raised-button 
+    [class.active]="activeTool === 'text'"
+    (click)="selectTool('text')"
+  >
+    <mat-icon>text_fields</mat-icon>
+    Text
+  </button>
+  
+  <button 
+    mat-raised-button 
+    [class.active]="activeTool === 'image'"
+    (click)="selectTool('image')"
+  >
+    <mat-icon>image</mat-icon>
+    Image
+  </button>
+  
+  <button 
+    mat-raised-button 
+    [class.active]="activeTool === 'rectangle'"
+    (click)="selectTool('rectangle')"
+  >
+    <mat-icon>crop_square</mat-icon>
+    Rectangle
+  </button>
+  
+  <button 
+    mat-raised-button 
+    [class.active]="activeTool === 'line'"
+    (click)="selectTool('line')"
+  >
+    <mat-icon>show_chart</mat-icon>
+    Line
+  </button>
+</div> 

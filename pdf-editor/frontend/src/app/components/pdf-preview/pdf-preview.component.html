@@ -1,0 +1,7 @@
+<div class="pdf-preview">
+  <img *ngIf="previewUrl" [src]="previewUrl" alt="PDF Preview" class="preview-image">
+  <div *ngIf="!previewUrl" class="no-preview">
+    <mat-icon>picture_as_pdf</mat-icon>
+    <p>No preview available</p>
+  </div>
+</div> 
