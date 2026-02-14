@@ -1,0 +1,10 @@
+/Users/ishanranasingh/projects/product-assistant-demo/src/main/java/com/example/assistant/ProductAssistantDemoApplication.java
+/Users/ishanranasingh/projects/product-assistant-demo/src/main/java/com/example/assistant/config/CorsConfig.java
+/Users/ishanranasingh/projects/product-assistant-demo/src/main/java/com/example/assistant/controller/AskController.java
+/Users/ishanranasingh/projects/product-assistant-demo/src/main/java/com/example/assistant/model/AskRequest.java
+/Users/ishanranasingh/projects/product-assistant-demo/src/main/java/com/example/assistant/model/AskResponse.java
+/Users/ishanranasingh/projects/product-assistant-demo/src/main/java/com/example/assistant/service/AnswerService.java
+/Users/ishanranasingh/projects/product-assistant-demo/src/main/java/com/example/assistant/service/GuardService.java
+/Users/ishanranasingh/projects/product-assistant-demo/src/main/java/com/example/assistant/service/OllamaClient.java
+/Users/ishanranasingh/projects/product-assistant-demo/src/main/java/com/example/assistant/service/ProductKnowledgeService.java
+/Users/ishanranasingh/projects/product-assistant-demo/src/main/java/com/example/assistant/service/RetrievalService.java

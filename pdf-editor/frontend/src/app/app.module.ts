@@ -29,6 +29,7 @@ import { PdfPreviewComponent } from './components/pdf-preview/pdf-preview.compon
 import { EditToolsComponent } from './components/edit-tools/edit-tools.component';
 import { SplitPdfComponent } from './components/split-pdf/split-pdf.component';
 import { ConvertPdfComponent } from './components/convert-pdf/convert-pdf.component';
+import { ProductAssistantComponent } from './components/product-assistant/product-assistant.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { ConvertPdfComponent } from './components/convert-pdf/convert-pdf.compon
     PdfPreviewComponent,
     EditToolsComponent,
     SplitPdfComponent,
-    ConvertPdfComponent
+    ConvertPdfComponent,
+    ProductAssistantComponent
   ],
   imports: [
     BrowserModule,

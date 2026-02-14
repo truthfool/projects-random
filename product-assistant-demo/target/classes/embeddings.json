@@ -1,0 +1,27 @@
+[
+  {
+    "id": "doc1:0",
+    "text": "PDF Editor helps you upload, preview, edit, split and convert PDF files.",
+    "vec": [0.1, 0.0, 0.2, 0.0, 0.0, 0.3]
+  },
+  {
+    "id": "doc2:0",
+    "text": "To upload a PDF, go to the Upload tab and select files.",
+    "vec": [0.0, 0.2, 0.0, 0.1, 0.0, 0.3]
+  },
+  {
+    "id": "doc3:0",
+    "text": "Use the Edit PDF tab to annotate, highlight, and rearrange pages.",
+    "vec": [0.1, 0.1, 0.0, 0.2, 0.0, 0.0]
+  },
+  {
+    "id": "doc4:0",
+    "text": "The Split PDF tab lets you split large PDFs into smaller documents.",
+    "vec": [0.0, 0.0, 0.2, 0.1, 0.1, 0.0]
+  },
+  {
+    "id": "doc5:0",
+    "text": "The Convert tab allows converting PDFs to and from images.",
+    "vec": [0.1, 0.0, 0.0, 0.0, 0.2, 0.1]
+  }
+]

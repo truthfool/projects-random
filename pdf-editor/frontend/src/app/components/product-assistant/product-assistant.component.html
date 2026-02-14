@@ -1,0 +1,28 @@
+<mat-card>
+  <mat-card-title>Product Assistant</mat-card-title>
+  <mat-card-content>
+    <mat-form-field class="full-width">
+      <mat-label>Ask about product usage</mat-label>
+      <input matInput [formControl]="question" (keyup.enter)="ask()" placeholder="e.g., How to navigate to Split PDF?" />
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="ask()" [disabled]="loading">Ask</button>
+
+    <div class="response" *ngIf="response">
+      <mat-divider></mat-divider>
+      <div *ngIf="response.allowed; else notAllowed">
+        <h4>Answer</h4>
+        <p>{{ response.answer }}</p>
+      </div>
+      <ng-template #notAllowed>
+        <h4>Not Allowed</h4>
+        <p>{{ response.reason }}</p>
+      </ng-template>
+    </div>
+
+    <div class="loading" *ngIf="loading">
+      <mat-progress-spinner mode="indeterminate" diameter="32"></mat-progress-spinner>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+

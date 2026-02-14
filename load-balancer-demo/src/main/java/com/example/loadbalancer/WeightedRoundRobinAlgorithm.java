@@ -1,21 +1,25 @@
 package com.example.loadbalancer;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
  * Weighted Round Robin load balancing algorithm.
- * Distributes requests based on server weights, giving more requests to servers
- * with higher weights.
+ * 
+ * Simple Implementation:
+ * We stick to one server until we have served 'weight' number of requests,
+ * then we move to the next server.
+ * 
+ * Example: Server A (Weight 3), Server B (Weight 1)
+ * Sequence: A, A, A, B, A, A, A, B ...
  */
 public class WeightedRoundRobinAlgorithm implements LoadBalancingAlgorithm {
 
-    private final AtomicInteger currentIndex = new AtomicInteger(0);
-    private final AtomicInteger currentWeight = new AtomicInteger(0);
+    private int currentIndex = 0;
+    private int currentCount = 0;
 
     @Override
-    public Server selectServer(List<Server> servers) {
+    public synchronized Server selectServer(List<Server> servers) {
         if (servers == null || servers.isEmpty()) {
             return null;
         }
@@ -29,63 +33,30 @@ public class WeightedRoundRobinAlgorithm implements LoadBalancingAlgorithm {
             return null;
         }
 
-        // Find the maximum weight among all servers
-        int maxWeight = healthyServers.stream()
-                .mapToInt(Server::getWeight)
-                .max()
-                .orElse(1);
-
-        // Find the greatest common divisor of all weights
-        int gcd = calculateGCD(healthyServers.stream()
-                .mapToInt(Server::getWeight)
-                .toArray());
-
-        while (true) {
-            int index = currentIndex.get();
-            int weight = currentWeight.get();
-
-            if (weight == 0) {
-                weight = maxWeight;
-                currentWeight.set(weight);
-            }
-
-            Server server = healthyServers.get(index);
-
-            if (server.getWeight() >= weight) {
-                // Move to next server
-                currentIndex.set((index + 1) % healthyServers.size());
-                currentWeight.set(weight - gcd);
-                return server;
-            } else {
-                // Move to next server without selecting current one
-                currentIndex.set((index + 1) % healthyServers.size());
-                currentWeight.set(weight - gcd);
-            }
+        // Safety check: specific case if servers changed and index is out of bounds
+        if (currentIndex >= healthyServers.size()) {
+            currentIndex = 0;
+            currentCount = 0;
         }
-    }
 
-    private int calculateGCD(int[] weights) {
-        if (weights.length == 0)
-            return 1;
+        Server server = healthyServers.get(currentIndex);
 
-        int gcd = weights[0];
-        for (int i = 1; i < weights.length; i++) {
-            gcd = calculateGCD(gcd, weights[i]);
+        // Logic: Have we served enough requests for this server?
+        // If currentCount is less than weight, continue using this server.
+        if (currentCount < server.getWeight()) {
+            currentCount++;
+            return server;
         }
-        return gcd;
-    }
 
-    private int calculateGCD(int a, int b) {
-        while (b != 0) {
-            int temp = b;
-            b = a % b;
-            a = temp;
-        }
-        return a;
+        // If we reached the limit for this server, move to the next one
+        currentIndex = (currentIndex + 1) % healthyServers.size();
+        currentCount = 1; // Start counting for the new server (this is the first request)
+
+        return healthyServers.get(currentIndex);
     }
 
     @Override
     public String getAlgorithmName() {
-        return "Weighted Round Robin";
+        return "Weighted Round Robin (Simple)";
     }
 }

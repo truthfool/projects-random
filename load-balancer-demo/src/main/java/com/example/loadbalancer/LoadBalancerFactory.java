@@ -28,7 +28,7 @@ public class LoadBalancerFactory {
 
         public static AlgorithmType fromString(String text) {
             for (AlgorithmType type : AlgorithmType.values()) {
-                if (type.value.equalsIgnoreCase(text)) {
+                if (type.getValue().equalsIgnoreCase(text)) {
                     return type;
                 }
             }

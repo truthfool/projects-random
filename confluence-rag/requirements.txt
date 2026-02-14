@@ -1,0 +1,10 @@
+langchain
+langchain-community
+langchain-openai
+langchain-chroma
+chromadb
+atlassian-python-api
+python-dotenv
+tiktoken
+beautifulsoup4
+lxml

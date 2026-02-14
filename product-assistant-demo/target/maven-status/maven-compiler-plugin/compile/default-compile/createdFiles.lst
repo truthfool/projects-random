@@ -1,0 +1,11 @@
+com/example/assistant/service/OllamaClient.class
+com/example/assistant/controller/AskController.class
+com/example/assistant/service/RetrievalService$Chunk.class
+com/example/assistant/service/GuardService.class
+com/example/assistant/ProductAssistantDemoApplication.class
+com/example/assistant/model/AskResponse.class
+com/example/assistant/service/AnswerService.class
+com/example/assistant/config/CorsConfig.class
+com/example/assistant/service/ProductKnowledgeService.class
+com/example/assistant/model/AskRequest.class
+com/example/assistant/service/RetrievalService.class
